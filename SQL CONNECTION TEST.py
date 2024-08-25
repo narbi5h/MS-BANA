@@ -5,3 +5,6 @@ import matplotlib as plt
 
 df = pd.read_csv('music.csv')
 df.shape
+#TEST
+#TEST 2
+#TEST 3
