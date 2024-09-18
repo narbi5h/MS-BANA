@@ -1,13 +1,16 @@
+import os
+
 
 # pip install pandas numpy scipy
-
+os.chdir('c:/Users/gio12/OneDrive/Documents/GitHub/MS-BANA/WEEK 3')
 
 import pandas as pd  # importing pandas library
 df = pd.read_csv('Sample.csv') # here we are importing the csv file
+#print(df)
 print(df.head()) # print out the first 5 lines of sample file
 
-data= df['Salary'] # read an specific column from the dataframe
-print(data.head())
+#data= df['Salary'] # read an specific column from the dataframe
+#print(data.head())
 
 # Calculate descriptive statistics
 #mean = data.mean()
