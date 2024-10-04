@@ -1,0 +1,10 @@
+StudentID,Name,Age,MathScore,EnglishScore,ScienceScore,Attendance
+1,Alice,20,85,90,88,95
+2,Bob,21,95,88,90,
+4,David,23,78,,82,85
+5,Eve,200,88,92,89,95
+6,Frank,,72,85,70,60
+7,Grace,20,,78,76,92
+8,Hannah,21,85,90,95,96
+9,Ivy,22,91,80,93,97
+10,Jack,20,77,75,65,58
