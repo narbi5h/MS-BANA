@@ -7,4 +7,4 @@ df = pd.read_csv('Student_Grades.csv')
 
 # Display the contents of the DataFrame
 print("Result of df.head()")
-print(df.describe())
+print(df)
