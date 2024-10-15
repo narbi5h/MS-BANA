@@ -4,7 +4,7 @@ import pandas as pd
 housing_df = pd.read_csv('WestRoxbury.csv') # importing the csv file
 #Renaming Columns
 housing_df.columns = [s.strip().replace(' ', '_') for s in housing_df.columns] 
-all columns
+# all columns
 # Descriptive statistics
 print(housing_df.describe()) # show summary statistics for each column
 df = pd.DataFrame(housing_df)
