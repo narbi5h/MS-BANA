@@ -28,16 +28,21 @@ df_filled_mean = golf_df.fillna(golf_df.mean(numeric_only=True))
 
 
 # Descriptive statistics
-#print(housing_df.describe()) # show summary statistics for each column
+print(df_filled_mean.describe()) # show summary statistics for each column
 
 
 df = pd.DataFrame(df_filled_mean)
 #print(df)
 
+print(golf_df.describe())
+
+print(df_filled_mean.describe())
+
 #Finding Correlation
 correlation_matrix = df.corr()
 correlation_matrix.to_csv('golf_correlation_matrix.csv')
 
+print(correlation_matrix)
 
 # Visualize the finding
 import seaborn as sn
