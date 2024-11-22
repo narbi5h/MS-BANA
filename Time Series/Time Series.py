@@ -34,7 +34,7 @@ import numpy as np
 # }
 # df_daily = pd.DataFrame(daily_data)
 
-# Plotting daily data
+# # Plotting daily data
 # plt.figure(figsize=(10, 5))
 # plt.plot(df_daily['Date'], df_daily['Value'], label="Daily Granularity")
 # plt.title("Daily Time Series Data")
@@ -60,16 +60,16 @@ import numpy as np
 
 #-------------------------------------------------------------------------------------------------------------#
 
-# # Create a sample dataset for slides 8,9, 10, 11
-# data = {
-#     'Date': pd.date_range(start='2022-01-01', periods=100, freq='D'),
-#     'Value': [i + np.random.normal(0, 2) for i in range(100)]
-# }
-# df = pd.DataFrame(data)
+# Create a sample dataset for slides 8,9, 10, 11
+data = {
+    'Date': pd.date_range(start='2022-01-01', periods=100, freq='D'),
+    'Value': [i + np.random.normal(0, 2) for i in range(100)]
+}
+df = pd.DataFrame(data)
 
 #-------------------------------------------------------------------------------------------------------------#
 
-# Slide 8 - Trend 
+# # Slide 8 - Trend 
 
 # # Calculate rolling mean for trend
 # df['Trend'] = df['Value'].rolling(window=10).mean()
@@ -88,10 +88,26 @@ import numpy as np
 
 # Slide # 9 - Seasonality
 
-# Add synthetic seasonality to data
-# df['Seasonality'] = 10 * np.sin(2 * np.pi * df.index / 365)
+# # Add synthetic cyclicality to data
+# df['Cyclicality'] = 10 * np.sin(2 * np.pi * df.index / 365)
 
-# # Plot seasonality
+# # Plot cyclicality
+# plt.figure(figsize=(10, 5))
+# plt.plot(df['Date'], df['Cyclicality'], label='Cyclicality')
+# plt.title("Cyclicality Component")
+# plt.xlabel("Date")
+# plt.ylabel("Value")
+# plt.legend()
+# plt.show()
+
+#-------------------------------------------------------------------------------------------------------------#
+
+# Slide # 10 - Cyclical 
+
+# # Add synthetic cyclicality
+# df['Seasonality'] = 5 * np.sin(2 * np.pi * df.index / 100)
+
+# # Plot cyclicality
 # plt.figure(figsize=(10, 5))
 # plt.plot(df['Date'], df['Seasonality'], label='Seasonality')
 # plt.title("Seasonality Component")
@@ -102,25 +118,9 @@ import numpy as np
 
 #-------------------------------------------------------------------------------------------------------------#
 
-# Slide # 10 - Cyclical 
-
-# Add synthetic cyclicality
-# df['Cyclicality'] = 5 * np.sin(2 * np.pi * df.index / 100)
-
-# # Plot cyclicality
-# plt.figure(figsize=(10, 5))
-# plt.plot(df['Date'], df['Cyclicality'], label='Cyclicality')
-# plt.title("Cyclical Component")
-# plt.xlabel("Date")
-# plt.ylabel("Value")
-# plt.legend()
-# plt.show()
-
-#-------------------------------------------------------------------------------------------------------------#
-
 # Slide # 11 - Noise
 
-# Add noise to the dataset
+# # Add noise to the dataset
 # df['Noise'] = np.random.normal(0, 2, size=len(df))
 
 # # Plot noise
@@ -147,10 +147,10 @@ import numpy as np
 
 # Data for slides 13, 14, 15, 16, 21, 32, 41, 43, 44, 45, 46, 51, 53, 54, 56, 59, 60, 61
 
-# # Create synthetic data
-# date_range = pd.date_range(start='2022-01-01', periods=365, freq='D')
-# data = [50 + 0.2 * i + 10 * np.sin(2 * np.pi * i / 365) + np.random.normal(0, 2) for i in range(365)]
-# df = pd.DataFrame({'Date': date_range, 'Value': data})
+# Create synthetic data
+date_range = pd.date_range(start='2022-01-01', periods=365, freq='D')
+data = [50 + 0.2 * i + 10 * np.sin(2 * np.pi * i / 365) + np.random.normal(0, 2) for i in range(365)]
+df = pd.DataFrame({'Date': date_range, 'Value': data})
 
 #-------------------------------------------------------------------------------------------------------------#
 
@@ -170,7 +170,7 @@ import numpy as np
 
 # Slide # 14
 
-# Summary statistics
+# # Summary statistics
 # print(df.describe())
 
 # # Plot histogram for distribution
@@ -229,7 +229,7 @@ import numpy as np
 # from statsmodels.graphics.tsaplots import plot_acf
 
 # plt.figure(figsize=(10, 5))
-# plot_acf(df['Value'].dropna(), lags=50, title="Autocorrelation Plot with Lag Analysis")
+# plot_acf(df['Value'].dropna(), lags=200, title="Autocorrelation Plot with Lag Analysis")
 # plt.grid()
 # plt.show()
 
@@ -308,7 +308,7 @@ import numpy as np
 
 # Slide # 45
 
-# Apply square root transformation
+# # Apply square root transformation
 # df['Square Root Transformed'] = np.sqrt(df['Value'].clip(lower=0))  # Clip to avoid sqrt of negative values
 
 # # Plot original vs. square root transformed series
@@ -418,7 +418,7 @@ import numpy as np
 # from statsmodels.tsa.arima.model import ARIMA
 
 # # Fit an ARIMA(2, 1, 2) model
-# arima_model = ARIMA(df['Value'], order=(2, 1, 2)).fit()
+# arima_model = ARIMA(df['Value'], order=(2, 1, 2)).fit() # p number of AR terms, d number of differences 1 is detrend 0 no differencing, q number of Moving Average terms
 # df['ARIMA'] = arima_model.fittedvalues
 
 # # Plot original series and ARIMA predictions
@@ -476,84 +476,84 @@ import numpy as np
 # print("Root Mean Squared Error (RMSE):", rmse)
 # print("Mean Absolute Percentage Error (MAPE):", mape)
 
-#-------------------------------------------------------------------------------------------------------------#
+# -------------------------------------------------------------------------------------------------------------#
 
 # Slide # 61
 
-# from statsmodels.tsa.arima.model import ARIMA
-# from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
-# import matplotlib.pyplot as plt
-# import pandas as pd
-# import numpy as np
+from statsmodels.tsa.arima.model import ARIMA
+from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
-# # Train-Test Split
-# train_size = int(len(df) * 0.8)
-# train, test = df[:train_size], df[train_size:]
+# Train-Test Split
+train_size = int(len(df) * 0.8)
+train, test = df[:train_size], df[train_size:]
 
-# # Fit ARIMA model on train data
-# arima_model = ARIMA(train['Value'], order=(2, 1, 2)).fit()
+# Fit ARIMA model on train data
+arima_model = ARIMA(train['Value'], order=(2, 1, 2)).fit()
 
-# # Print model summary
-# print(arima_model.summary())
+# Print model summary
+print(arima_model.summary())
 
-# # Forecast on test data
-# forecast = arima_model.get_forecast(steps=len(test))
-# forecast_values = forecast.predicted_mean
-# conf_int = forecast.conf_int(alpha=0.05)
+# Forecast on test data
+forecast = arima_model.get_forecast(steps=len(test))
+forecast_values = forecast.predicted_mean
+conf_int = forecast.conf_int(alpha=0.05)
 
-# # Add forecast values to the test dataframe
-# test['ARIMA Forecast'] = forecast_values
+# Add forecast values to the test dataframe
+test['ARIMA Forecast'] = forecast_values
 
-# # Evaluate Accuracy Metrics
-# mse = mean_squared_error(test['Value'], test['ARIMA Forecast'])
-# rmse = np.sqrt(mse)
-# mape = mean_absolute_percentage_error(test['Value'], test['ARIMA Forecast'])
+# Evaluate Accuracy Metrics
+mse = mean_squared_error(test['Value'], test['ARIMA Forecast'])
+rmse = np.sqrt(mse)
+mape = mean_absolute_percentage_error(test['Value'], test['ARIMA Forecast'])
 
-# # Print metrics
-# print("Evaluation Metrics:")
-# print(f"Mean Squared Error (MSE): {mse:.2f}")
-# print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
-# print(f"Mean Absolute Percentage Error (MAPE): {mape:.2%}")
+# Print metrics
+print("Evaluation Metrics:")
+print(f"Mean Squared Error (MSE): {mse:.2f}")
+print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
+print(f"Mean Absolute Percentage Error (MAPE): {mape:.2%}")
 
-# # Plot original series, ARIMA forecasts, and confidence intervals
-# plt.figure(figsize=(12, 6))
+# Plot original series, ARIMA forecasts, and confidence intervals
+plt.figure(figsize=(12, 6))
 
-# # Plot train data
-# plt.plot(train['Date'], train['Value'], label='Train Data', alpha=0.7)
+# Plot train data
+plt.plot(train['Date'], train['Value'], label='Train Data', alpha=0.7)
 
-# # Plot test data
-# plt.plot(test['Date'], test['Value'], label='Test Data', alpha=0.7)
+# Plot test data
+plt.plot(test['Date'], test['Value'], label='Test Data', alpha=0.7)
 
-# # Plot ARIMA forecasts
-# plt.plot(test['Date'], test['ARIMA Forecast'], label='ARIMA Forecast', color='red', linestyle='--')
+# Plot ARIMA forecasts
+plt.plot(test['Date'], test['ARIMA Forecast'], label='ARIMA Forecast', color='red', linestyle='--')
 
-# # Plot confidence intervals
-# plt.fill_between(test['Date'], conf_int.iloc[:, 0], conf_int.iloc[:, 1], color='pink', alpha=0.3, label='95% Confidence Interval')
+# Plot confidence intervals
+plt.fill_between(test['Date'], conf_int.iloc[:, 0], conf_int.iloc[:, 1], color='pink', alpha=0.3, label='95% Confidence Interval')
 
-# plt.title("ARIMA Model Forecasting with Confidence Intervals")
-# plt.xlabel("Date")
-# plt.ylabel("Value")
-# plt.legend()
-# plt.grid()
-# plt.show()
+plt.title("ARIMA Model Forecasting with Confidence Intervals")
+plt.xlabel("Date")
+plt.ylabel("Value")
+plt.legend()
+plt.grid()
+plt.show()
 
-# # Residual Diagnostics
-# residuals = train['Value'] - arima_model.fittedvalues
-# plt.figure(figsize=(10, 5))
-# plt.plot(residuals, label='Residuals', color='orange')
-# plt.axhline(0, linestyle='--', color='gray')
-# plt.title("Residual Diagnostics")
-# plt.xlabel("Time")
-# plt.ylabel("Residuals")
-# plt.legend()
-# plt.grid()
-# plt.show()
+# Residual Diagnostics
+residuals = train['Value'] - arima_model.fittedvalues
+plt.figure(figsize=(10, 5))
+plt.plot(residuals, label='Residuals', color='orange')
+plt.axhline(0, linestyle='--', color='gray')
+plt.title("Residual Diagnostics")
+plt.xlabel("Time")
+plt.ylabel("Residuals")
+plt.legend()
+plt.grid()
+plt.show()
 
-# # Residual Histogram
-# import seaborn as sns
-# sns.histplot(residuals, kde=True, bins=20, color='blue')
-# plt.title("Residual Histogram")
-# plt.xlabel("Residual Value")
-# plt.ylabel("Frequency")
-# plt.grid()
-# plt.show()
+# Residual Histogram
+import seaborn as sns
+sns.histplot(residuals, kde=True, bins=20, color='blue')
+plt.title("Residual Histogram")
+plt.xlabel("Residual Value")
+plt.ylabel("Frequency")
+plt.grid()
+plt.show()

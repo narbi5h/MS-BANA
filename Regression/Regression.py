@@ -390,5 +390,5 @@ import statsmodels.api as sm
 
 X_with_const = sm.add_constant(X)  # Adds intercept
 model_sm = sm.OLS(y, X_with_const).fit()
-print(model_sm.summary())
+print(model_sm.summary()) 
 
