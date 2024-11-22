@@ -1,19 +1,16 @@
-#Simple Regression
+# import pandas as pd
+# from sklearn.linear_model import LinearRegression
+# from sklearn.metrics import mean_squared_error
 
+# # Load data
+# data = pd.read_csv('advertising.csv')
+# X = data[['TV']]
+# y = data['Sales']
 
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-
-# Load data
-data = pd.read_csv('advertising.csv')
-X = data[['TV']]
-y = data['Sales']
-
-# Fit the model
-model = LinearRegression()
-model.fit(X, y)
-#---
+# # Fit the model
+# model = LinearRegression()
+# model.fit(X, y)
+# #---
 
 # #Visualizing the Simple Regression Results
 
@@ -54,45 +51,46 @@ model.fit(X, y)
 
 # # Multiple Linear Regression
 
-# from sklearn.datasets import fetch_california_housing
-# import pandas as pd
+from sklearn.datasets import fetch_california_housing
+import pandas as pd
 
-# housing = fetch_california_housing()
-# X = pd.DataFrame(housing.data, columns=housing.feature_names)
-# y = housing.target
+housing = fetch_california_housing()
+X = pd.DataFrame(housing.data, columns=housing.feature_names)
+y = housing.target
 
-# from sklearn.linear_model import LinearRegression
-# from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
-# # Split the dataset
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# Split the dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-# # Fit the model
-# model = LinearRegression()
-# model.fit(X_train, y_train)
+# Fit the model
+model = LinearRegression()
+model.fit(X_train, y_train)
 
-# # Check the coeefficients
-# # coeffs = pd.DataFrame({'Feature': X.columns, 'Coefficient': model.coef_})
-# # print(coeffs)
+# Check the coeefficients
+coeffs = pd.DataFrame({'Feature': X.columns, 'Coefficient': model.coef_})
+print(coeffs)  #shows the betas for each of those Xs
 
-# # Evaluating MLR
 
-# from sklearn.metrics import mean_squared_error, r2_score
+# Evaluating MLR
 
-# y_pred = model.predict(X_test)
-# mse = mean_squared_error(y_test, y_pred)
-# r2 = r2_score(y_test, y_pred)
-# print('Mean Squared Error:', mse)
-# print('R-squared:', r2)
+from sklearn.metrics import mean_squared_error, r2_score
 
-# #VIF
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print('Mean Squared Error:', mse)
+print('R-squared:', r2)
 
-# from statsmodels.stats.outliers_influence import variance_inflation_factor
+#VIF
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+import seaborn as sns
 
-# vif_data = pd.DataFrame()
-# vif_data['Feature'] = X.columns
-# vif_data['VIF'] = [variance_inflation_factor(X.values, i) for i in range(len(X.columns))]
-# print(vif_data)
+vif_data = pd.DataFrame()
+vif_data['Feature'] = X.columns
+vif_data['VIF'] = [variance_inflation_factor(X.values, i) for i in range(len(X.columns))]
+print(vif_data)
 
 # #Handling Categorical Variables
 
@@ -107,41 +105,41 @@ model.fit(X, y)
 # plt.title('Residuals vs. Predicted')
 # plt.show()
 
-# #MSE , RMSE
-# from sklearn.metrics import mean_squared_error
+#MSE , RMSE
+from sklearn.metrics import mean_squared_error
 
-# # Calculate Mean Squared Error
-# mse = mean_squared_error(y_test, y_pred)
+# Calculate Mean Squared Error
+mse = mean_squared_error(y_test, y_pred)
 
-# # Calculate Root Mean Squared Error
-# rmse = mse ** 0.5
+# Calculate Root Mean Squared Error
+rmse = mse ** 0.5
 
-# print("Mean Squared Error (MSE):", mse)
-# print("Root Mean Squared Error (RMSE):", rmse)
+print("Mean Squared Error (MSE):", mse)
+print("Root Mean Squared Error (RMSE):", rmse)
 
-# #MAE
-# from sklearn.metrics import mean_absolute_error
+#MAE
+from sklearn.metrics import mean_absolute_error
 
-# # Calculate Mean Absolute Error
-# mae = mean_absolute_error(y_test, y_pred)
+# Calculate Mean Absolute Error
+mae = mean_absolute_error(y_test, y_pred)
 
-# print("Mean Absolute Error (MAE):", mae)
+print("Mean Absolute Error (MAE):", mae)
 
-# #AIC, BIC
-# import statsmodels.api as sm
+#AIC, BIC
+import statsmodels.api as sm
 
-# # Add a constant to the model (for intercept)
-# X_test_with_const = sm.add_constant(X_test)
+# Add a constant to the model (for intercept)
+X_test_with_const = sm.add_constant(X_test)
 
-# # Fit the model using statsmodels
-# model_stats = sm.OLS(y_test, X_test_with_const).fit()
+# Fit the model using statsmodels
+model_stats = sm.OLS(y_test, X_test_with_const).fit()
 
-# # Calculate AIC and BIC
-# aic = model_stats.aic
-# bic = model_stats.bic
+# Calculate AIC and BIC
+aic = model_stats.aic
+bic = model_stats.bic
 
-# print("Akaike Information Criterion (AIC):", aic)
-# print("Bayesian Information Criterion (BIC):", bic)
+print("Akaike Information Criterion (AIC):", aic)
+print("Bayesian Information Criterion (BIC):", bic)
 
 # # Backward Elimination
 
@@ -380,15 +378,15 @@ model.fit(X, y)
 
 
 # Fit model for Simple Linear Regression
-model = LinearRegression() 
-model.fit(X, y)
-print("Coefficient (β1):", model.coef_[0])
-print("Intercept (β0):", model.intercept_)
+# model = LinearRegression() 
+# model.fit(X, y)
+# print("Coefficient (β1):", model.coef_[0])
+# print("Intercept (β0):", model.intercept_)
 
-#Statistical Signifcance
-import statsmodels.api as sm
+# #Statistical Signifcance
+# import statsmodels.api as sm
 
-X_with_const = sm.add_constant(X)  # Adds intercept
-model_sm = sm.OLS(y, X_with_const).fit()
-print(model_sm.summary())
+# X_with_const = sm.add_constant(X)  # Adds intercept
+# model_sm = sm.OLS(y, X_with_const).fit()
+# print(model_sm.summary())
 

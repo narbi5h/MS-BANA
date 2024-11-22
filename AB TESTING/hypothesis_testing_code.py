@@ -3,43 +3,54 @@ import pandas as pd
 from scipy import stats
 import seaborn as sns
 import matplotlib.pyplot as plt
-import scikit.learn as sk
+import sklearn as sk
 
 # Read the dataset
-df = pd.read_csv('grand_euro.csv')
-df = df[df['class'] == 'Q']
-# Extract the 6th and 7th character from 'cruise' column as the month
-df['month'] = df['cruise'].str[5:7]
-# Select only the 'month' and 'trams' columns
-df = df[['month', 'Trams']]
-# Drop NaNs from the dataframe
-df.dropna(inplace=True)
-# Function to remove IQR outliers for each sailmonth
-def remove_outliers_iqr(df, column):
-    Q1 = df[column].quantile(0.25)
-    Q3 = df[column].quantile(0.75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-    return df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
+df = pd.read_csv('life.csv')
 
-# Remove outliers for each month
-df = df.groupby('month').apply(lambda x: remove_outliers_iqr(x, 'Trams')).reset_index(drop=True)
 
-# Check for non-linear correlation between 'month' and 'Trams' using Spearman's rank correlation
-spearman_corr, spearman_p_value = stats.spearmanr(df['month'], df['Trams'])
-print(f"Spearman's rank correlation: {spearman_corr}, p-value: {spearman_p_value}")
+# Filter the dataframe to include only rows where the country is Afghanistan, Albania, or Italy
+filtered_df = df[df['Country'].isin(['Afghanistan'])]
 
-# Convert 'month' to numeric for plotting
-df['month'] = pd.to_numeric(df['month'], errors='coerce')
+filtered_df = filtered_df[['Year', 'Life expectancy ']]
 
-# Create cat plot with mean
+
+
+# Create a time series plot for life expectancy over the years
 plt.figure(figsize=(10, 6))
-sns.catplot(x='month', y='Trams', kind='box', data=df, showmeans=True, height=6, aspect=1.5)
-plt.title('Box Plot of Trams by Month')
-plt.xlabel('Month')
-plt.ylabel('Trams')
+sns.lineplot(x='Year', y='Life expectancy ', data=filtered_df, marker='o')
+plt.title('Life Expectancy Over the Years')
+plt.xlabel('Year')
+plt.ylabel('Life Expectancy')
+plt.grid(True)
 plt.show()
+
+# # Function to remove IQR outliers for each sailmonth
+# def remove_outliers_iqr(df, column):
+#     Q1 = df[column].quantile(0.25)
+#     Q3 = df[column].quantile(0.75)
+#     IQR = Q3 - Q1
+#     lower_bound = Q1 - 1.5 * IQR
+#     upper_bound = Q3 + 1.5 * IQR
+#     return df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
+
+# # Remove outliers for each month
+# df = df.groupby('month').apply(lambda x: remove_outliers_iqr(x, 'Trams')).reset_index(drop=True)
+
+# # Check for non-linear correlation between 'month' and 'Trams' using Spearman's rank correlation
+# spearman_corr, spearman_p_value = stats.spearmanr(df['month'], df['Trams'])
+# print(f"Spearman's rank correlation: {spearman_corr}, p-value: {spearman_p_value}")
+
+# # Convert 'month' to numeric for plotting
+# df['month'] = pd.to_numeric(df['month'], errors='coerce')
+
+# # Create cat plot with mean
+# plt.figure(figsize=(10, 6))
+# sns.catplot(x='month', y='Trams', kind='box', data=df, showmeans=True, height=6, aspect=1.5)
+# plt.title('Box Plot of Trams by Month')
+# plt.xlabel('Month')
+# plt.ylabel('Trams')
+# plt.show()
 
 
 # # Select only the 'departure_date' and 'cost_assumption' columns
